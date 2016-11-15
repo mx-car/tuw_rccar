@@ -1,3 +1,10 @@
+# Backups
+*swap
+*~
+*.swp
+*.swo
+*.kate-swp
+*.lck
 # Compiled Object files
 *.slo
 *.lo
@@ -15,7 +22,6 @@
 
 # Fortran module files
 *.mod
-*.smod
 
 # Compiled Static libraries
 *.lai
@@ -27,3 +33,30 @@
 *.exe
 *.out
 *.app
+
+# CMake
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
+build
+arduino/lib
+
+# Eclipse
+.project
+.pydevproject
+.settings
+
+
+# KDevelop
+*kdev*
+
+# ROS
+build
+devel
+.catkin_workspace
+./src/CMakeLists.txt
+
+# Python
+*.pyc
