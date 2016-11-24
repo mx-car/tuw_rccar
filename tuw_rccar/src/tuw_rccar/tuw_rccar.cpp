@@ -65,7 +65,7 @@ void RCCar::callback_serial ( tuw::serial::Message &header, tuw::serial::Objects
     }
     if(1 /*shm_->command_actuators.hasChanged()*/){
         tuw::arduino::Actuators _actuators;
-        _actuators.rps = twist_velocity;
+        _actuators.rps = twist_velocity * -1;
         _actuators.rad = twist_steering_angle;
 
         serial_arduino.addObject ( tuw::serial::Object ( _actuators, tuw::serial::TYPE_COMMAND_ACTUATORS ) );

@@ -46,18 +46,31 @@ void RCCarNode::callbackConfigRCCar ( tuw_rccar::RCCarConfig &config, uint32_t l
     init();
 }
 
-void RCCarNode::callbackWrite ( const geometry_msgs::Twist &_inp ) {
-    twist_velocity = _inp.linear.x * -50;
-    twist_steering_angle = _inp.angular.z;
+void RCCarNode::callbackWrite ( const tuw_nav_msgs::JointsIWS &_inp ) {
+    twist_velocity = _inp.revolute[0] * 50; // Ackermann commands
+    twist_steering_angle = _inp.steering[0] * 0.26f;
 }
 
 
 void RCCarNode::publish () {
-/*    geometry_msgs::Twist cmd;
+
+    static ros::Time time_last = ros::Time::now();
+
+    ros::Time time_now = ros::Time::now();
+
+    double dt = (time_now - time_last).toSec();
+    time_last = time_now;
+
+    double vel_tmp = (twist_velocity/50.0f) * 0.1277f;
+    double angle_tmp = twist_steering_angle;
+
+    float achsabstand = 0.26;
+
+    geometry_msgs::Twist cmd;
     // creates motion command
-    cmd.linear.x = cmd_.v();
+    cmd.linear.x = vel_tmp;
     cmd.linear.y = 0.;
-    cmd.angular.z = cmd_.w();
+    cmd.angular.z = 1/achsabstand * vel_tmp * sin(angle_tmp);
     // publishes motion command
-    pub_cmd_.publish ( cmd );*/
+    publisher_.publish ( cmd );
 }
