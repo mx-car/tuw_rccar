@@ -62,7 +62,7 @@ public:
      * @param len array length
      * @return number of consumed bytes or the length argument
      */
-    unsigned int deserialize ( const char *data, unsigned int len ) ;
+    unsigned int deserialize ( const char *data, unsigned int len );
     TObject& operator= ( const TObject &o );
     template <class T>const T& set ( const T& src, uint16_t type ) {
         this->type = type;
@@ -112,8 +112,8 @@ public:
     TMessage &push_object ( const TObject &object );
 };
 
-};
-};
+}
+}
 
 #endif // __SERIAL_BASE_H
 

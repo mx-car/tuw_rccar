@@ -23,22 +23,21 @@ public:
     boost::posix_time::ptime toBoost() const;
 };
 
-class  Object;
+class Object;
 using Objects = std::map<ObjectType,Object>;
 
-class  Object : public TObject {
+class Object : public TObject {
 public:
-    Object() : TObject() {};
-    Object ( ObjectType type ) : TObject ( type ) {};
-    Object ( Object const &o ) : TObject ( o ) {};
-    template <class T> Object ( const T& src, ObjectType type ) : TObject ( src, type ) {};
+    Object() : TObject() {}
+    Object ( ObjectType type ) : TObject ( type ) {}
+    Object ( Object const &o ) : TObject ( o ) {}
+    template <class T> Object ( const T& src, ObjectType type ) : TObject ( src, type ) {}
 
     friend std::ostream &operator << ( std::ostream &os, const Object &o ) {
         os << "[" << o.type <<  ", " << o.size << "]";
         return os;
-    };
+    }
 };
-
 
 class  Message : public TMessage {
 public:
@@ -48,10 +47,8 @@ public:
     friend std::ostream &operator << ( std::ostream &os, const Message &o ) {
         os << "[" << o.size <<  ", " << o.seq << ", " << o.time().toString() << "]";
         return os;
-    };
+    }
 };
-
-
 
 class MessageHeader : public TMessageHeader {
 public:
@@ -61,7 +58,7 @@ public:
     friend std::ostream &operator << ( std::ostream &os, const MessageHeader &o ) {
         os << "[" << o.size <<  ", " << o.seq << ", " << o.time().toString() << "]";
         return os;
-    };
+    }
 };
 
 }

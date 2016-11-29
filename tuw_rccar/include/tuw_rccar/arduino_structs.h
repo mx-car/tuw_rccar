@@ -4,9 +4,10 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <cstring>
+
 #ifndef USB_PRODUCT
-#include <iostream>
-#include <boost/algorithm/string.hpp>
+    #include <iostream>
+    #include <boost/algorithm/string.hpp>
 #endif
 
 namespace tuw {
@@ -17,22 +18,21 @@ namespace arduino {
  * @author Markus Bader <markus.bader@tuwien.ac.at>
  **/
 struct TTime {
-    TTime() : sec ( 0 ) , nsec ( 0 ) {};
-    TTime ( int32_t sec, int32_t nsec )  :sec ( sec ) , nsec ( nsec ) {};
+    TTime() : sec ( 0 ) , nsec ( 0 ) {}
+    TTime ( int32_t sec, int32_t nsec )  :sec ( sec ) , nsec ( nsec ) {}
     int32_t sec;      /// seconds (stamp_secs) since epoch
     int32_t nsec;     /// nanoseconds = 0.000000001 sec since stamp_secs
 #ifndef USB_PRODUCT
     friend std::ostream &operator << ( std::ostream &os, const TTime &o ) {
         os << "[" << o.sec << ", " << o.nsec <<  "]";
         return os;
-    };
-
+    }
 #endif
 };
 
 struct TPose {
-    TPose() : x ( 0 ), y ( 0 ), theta ( 0 ) {};
-    TPose ( float x, float y, float theta ) : x ( x ), y ( y ), theta ( theta ) {};
+    TPose() : x ( 0 ), y ( 0 ), theta ( 0 ) {}
+    TPose ( float x, float y, float theta ) : x ( x ), y ( y ), theta ( theta ) {}
     float x;
     float y;
     float theta;
@@ -40,9 +40,8 @@ struct TPose {
     friend std::ostream &operator << ( std::ostream &os, const TPose &o ) {
         os << "[" << o.x << ", " << o.y << ", " << o.theta <<  "]";
         return os;
-    };
-    friend std::istream& operator>>(std::istream &input, TPose &o)
-    {
+    }
+    friend std::istream &operator >> ( std::istream &input, TPose &o ) {
         std::string str;
         getline (input, str);
 	o.setFromString(str);
@@ -63,15 +62,15 @@ struct TPose {
     }
 #endif
 };
+
 struct TMat3x3 {
     float m[9];
 #ifndef USB_PRODUCT
     friend std::ostream &operator << ( std::ostream &os, const TMat3x3 &o ) {
         os << o.getToString();
         return os;
-    };
-    friend std::istream& operator>>(std::istream &input, TMat3x3 &o)
-    {
+    }
+    friend std::istream &operator >> ( std::istream &input, TMat3x3 &o ) {
         std::string str;
         getline (input, str);
 	o.setFromString(str);
@@ -94,7 +93,7 @@ struct TMat3x3 {
 #endif
 };
 
-struct  TText {
+struct TText {
     TText() {
         clear();
     }
@@ -118,9 +117,8 @@ struct  TText {
     friend std::ostream &operator << ( std::ostream &os, const TText &o ) {
         os << o.getToString();
         return os;
-    };
-    friend std::istream& operator>>(std::istream &input, TText &o)
-    {
+    }
+    friend std::istream &operator >> ( std::istream &input, TText &o ) {
         std::string str;
         getline (input, str);
 	o.setFromString(str);
@@ -136,18 +134,18 @@ struct  TText {
     }
 #endif
 };
-struct  TActuators {
-    TActuators() : rps ( 0 ), rad ( 0 ) {};
-    TActuators ( float rps, float rad ) : rps ( rps ), rad ( rad ) {};
+
+struct TActuators {
+    TActuators() : rps ( 0 ), rad ( 0 ) {}
+    TActuators ( float rps, float rad ) : rps ( rps ), rad ( rad ) {}
     float rps;
     float rad;
 #ifndef USB_PRODUCT
     friend std::ostream &operator << ( std::ostream &os, const TActuators &o ) {
         os << o.getToString();
         return os;
-    };
-    friend std::istream& operator>>(std::istream &input, TActuators &o)
-    {
+    }
+    friend std::istream &operator >> ( std::istream &input, TActuators &o ) {
         std::string str;
         getline (input, str);
 	o.setFromString(str);
@@ -169,18 +167,17 @@ struct  TActuators {
 #endif
 };
 
-struct  TAckermann {
-    TAckermann() : v ( 0 ), alpha ( 0 ) {};
-    TAckermann ( float v, float alpha ) : v ( v ), alpha ( alpha ) {};
+struct TAckermann {
+    TAckermann() : v ( 0 ), alpha ( 0 ) {}
+    TAckermann ( float v, float alpha ) : v ( v ), alpha ( alpha ) {}
     float v;
     float alpha;
 #ifndef USB_PRODUCT
     friend std::ostream &operator << ( std::ostream &os, const TAckermann &o ) {
         os << o.getToString();
         return os;
-    };
-    friend std::istream& operator>>(std::istream &input, TAckermann &o)
-    {
+    }
+    friend std::istream &operator >> ( std::istream &input, TAckermann &o ) {
         std::string str;
         getline (input, str);
 	o.setFromString(str);
@@ -201,9 +198,10 @@ struct  TAckermann {
     }
 #endif
 };
-struct  TAckermannConfig {
-    TAckermannConfig() : d ( 0 ), l ( 0 ), gear_ratio ( 0 ), wheel_radius ( 0 ), max_steer_angle ( 0 ), weight ( 0 ) {};
-    TAckermannConfig ( float d, float l, float gear_ratio, float wheel_radius, float max_steer_angle, float weight ) : d ( d ), l ( l ), gear_ratio ( gear_ratio ), wheel_radius ( wheel_radius ), max_steer_angle ( max_steer_angle ), weight ( weight ) {};
+
+struct TAckermannConfig {
+    TAckermannConfig() : d ( 0 ), l ( 0 ), gear_ratio ( 0 ), wheel_radius ( 0 ), max_steer_angle ( 0 ), weight ( 0 ) {}
+    TAckermannConfig ( float d, float l, float gear_ratio, float wheel_radius, float max_steer_angle, float weight ) : d ( d ), l ( l ), gear_ratio ( gear_ratio ), wheel_radius ( wheel_radius ), max_steer_angle ( max_steer_angle ), weight ( weight ) {}
     float d; /// distance front <-> back wheels [m]
     float l; /// distance between wheels [m]
     float gear_ratio; /// rps [Motor] -> rps [wheels]
@@ -214,9 +212,8 @@ struct  TAckermannConfig {
     friend std::ostream &operator << ( std::ostream &os, const TAckermannConfig &o ) {
         os << o.getToString();
         return os;
-    };
-    friend std::istream& operator>>(std::istream &input, TAckermannConfig &o)
-    {
+    }
+    friend std::istream &operator >> ( std::istream &input, TAckermannConfig &o ) {
         std::string str;
         getline (input, str);
 	o.setFromString(str);
@@ -239,17 +236,16 @@ struct  TAckermannConfig {
 };
 
 struct TPoint {
-    TPoint() : x ( 0 ),y ( 0 ) {};
-    TPoint ( float x, float y ) : x ( x ),y ( y ) {};
+    TPoint() : x ( 0 ),y ( 0 ) {}
+    TPoint ( float x, float y ) : x ( x ),y ( y ) {}
     float x;
     float y;
 #ifndef USB_PRODUCT
     friend std::ostream &operator << ( std::ostream &os, const TPoint &o ) {
         os << o.getToString();
         return os;
-    };
-    friend std::istream& operator>>(std::istream &input, TPoint &o)
-    {
+    }
+    friend std::istream &operator >> ( std::istream &input, TPoint &o ) {
         std::string str;
         getline (input, str);
 	o.setFromString(str);
@@ -272,17 +268,16 @@ struct TPoint {
 };
 
 struct TVector2 {
-    TVector2() : x ( 0 ),y ( 0 ) {};
-    TVector2 ( float x, float y ) : x ( x ),y ( y ) {};
+    TVector2() : x ( 0 ),y ( 0 ) {}
+    TVector2 ( float x, float y ) : x ( x ),y ( y ) {}
     float x;
     float y;
 #ifndef USB_PRODUCT
     friend std::ostream &operator << ( std::ostream &os, const TVector2 &o ) {
         os << o.getToString();
         return os;
-    };
-    friend std::istream& operator>>(std::istream &input, TVector2 &o)
-    {
+    }
+    friend std::istream &operator >> ( std::istream &input, TVector2 &o ) {
         std::string str;
         getline (input, str);
 	o.setFromString(str);
@@ -305,8 +300,8 @@ struct TVector2 {
 };
 
 struct TVector3 {
-    TVector3() : x ( 0 ), y ( 0 ), z( 0 ) {};
-    TVector3 ( float x, float y, float z) : x ( x ), y ( y ), z ( z ) {};
+    TVector3() : x ( 0 ), y ( 0 ), z( 0 ) {}
+    TVector3 ( float x, float y, float z) : x ( x ), y ( y ), z ( z ) {}
     float x;
     float y;
     float z;
@@ -314,9 +309,8 @@ struct TVector3 {
     friend std::ostream &operator << ( std::ostream &os, const TVector3 &o ) {
         os << o.getToString();
         return os;
-    };
-    friend std::istream& operator>>(std::istream &input, TVector3 &o)
-    {
+    }
+    friend std::istream &operator >> ( std::istream &input, TVector3 &o ) {
         std::string str;
         getline (input, str);
 	o.setFromString(str);
@@ -339,17 +333,16 @@ struct TVector3 {
 };
 
 struct TActualTarget {
-    TActualTarget() : actual ( 0 ), target ( 0 ) {};
-    TActualTarget ( float actual, float target ) : actual ( actual ),target ( target ) {};
+    TActualTarget() : actual ( 0 ), target ( 0 ) {}
+    TActualTarget ( float actual, float target ) : actual ( actual ),target ( target ) {}
     float actual;
     float target;
 #ifndef USB_PRODUCT
     friend std::ostream &operator << ( std::ostream &os, const TActualTarget &o ) {
         os << o.getToString();
         return os;
-    };
-    friend std::istream& operator>>(std::istream &input, TActualTarget &o)
-    {
+    }
+    friend std::istream &operator >> ( std::istream &input, TActualTarget &o ) {
         std::string str;
         getline (input, str);
 	o.setFromString(str);
@@ -372,8 +365,8 @@ struct TActualTarget {
 };
 
 struct TPID {
-    TPID() : kp ( 0 ), ki ( 0 ), kd ( 0 ) {};
-    TPID ( float kp, float ki, float kd ) : kp ( kp ), ki ( ki ), kd ( kd ) {};
+    TPID() : kp ( 0 ), ki ( 0 ), kd ( 0 ) {}
+    TPID ( float kp, float ki, float kd ) : kp ( kp ), ki ( ki ), kd ( kd ) {}
     float kp;
     float ki;
     float kd;
@@ -381,9 +374,8 @@ struct TPID {
     friend std::ostream &operator << ( std::ostream &os, const TPID &o ) {
         os << o.getToString();
         return os;
-    };
-    friend std::istream& operator>>(std::istream &input, TPID &o)
-    {
+    }
+    friend std::istream &operator >> ( std::istream &input, TPID &o ) {
         std::string str;
         getline (input, str);
 	o.setFromString(str);
@@ -406,17 +398,16 @@ struct TPID {
 };
 
 struct TMotor {
-    TMotor() : rps (), pwm () {};
-    TMotor ( const TActualTarget &rps, const TActualTarget &pwm ) : rps ( rps ),pwm ( pwm ) {};
+    TMotor() : rps (), pwm () {}
+    TMotor ( const TActualTarget &rps, const TActualTarget &pwm ) : rps ( rps ),pwm ( pwm ) {}
     TActualTarget rps;
     TActualTarget pwm;
 #ifndef USB_PRODUCT
     friend std::ostream &operator << ( std::ostream &os, const TMotor &o ) {
         os << o.getToString();
         return os;
-    };
-    friend std::istream& operator>>(std::istream &input, TMotor &o)
-    {
+    }
+    friend std::istream &operator >> ( std::istream &input, TMotor &o ) {
         std::string str;
         getline (input, str);
 	o.setFromString(str);
@@ -440,17 +431,16 @@ struct TMotor {
 
 
 struct TServo {
-    TServo() : angle (), high_time () {};
-    TServo ( const TActualTarget &angle, const TActualTarget &pwm ) : angle ( angle ), high_time ( high_time ) {};
+    TServo() : angle (), high_time () {}
+    TServo ( const TActualTarget &angle, const TActualTarget &pwm ) : angle ( angle ), high_time ( high_time ) {}
     TActualTarget angle;
     TActualTarget high_time;
 #ifndef USB_PRODUCT
     friend std::ostream &operator << ( std::ostream &os, const TServo &o ) {
         os << o.getToString();
         return os;
-    };
-    friend std::istream& operator>>(std::istream &input, TServo &o)
-    {
+    }
+    friend std::istream &operator >> ( std::istream &input, TServo &o ) {
         std::string str;
         getline (input, str);
 	o.setFromString(str);
@@ -473,16 +463,15 @@ struct TServo {
 };
 
 struct TIMU_Accelerometer {
-    TIMU_Accelerometer() : state () {};
-    TIMU_Accelerometer ( const TVector3 &state ) : state ( state ) {};
+    TIMU_Accelerometer() : state () {}
+    TIMU_Accelerometer ( const TVector3 &state ) : state ( state ) {}
     TVector3 state;
 #ifndef USB_PRODUCT
     friend std::ostream &operator << ( std::ostream &os, const TIMU_Accelerometer &o ) {
         os << o.getToString();
         return os;
-    };
-    friend std::istream& operator>>(std::istream &input, TIMU_Accelerometer &o)
-    {
+    }
+    friend std::istream &operator >> ( std::istream &input, TIMU_Accelerometer &o ) {
         std::string str;
         getline (input, str);
 	o.setFromString(str);
@@ -505,16 +494,15 @@ struct TIMU_Accelerometer {
 };
 
 struct TIMU_Gyroscope {
-    TIMU_Gyroscope() : state () {};
-    TIMU_Gyroscope ( const TVector3 &state ) : state ( state ) {};
+    TIMU_Gyroscope() : state () {}
+    TIMU_Gyroscope ( const TVector3 &state ) : state ( state ) {}
     TVector3 state;
 #ifndef USB_PRODUCT
     friend std::ostream &operator << ( std::ostream &os, const TIMU_Gyroscope &o ) {
         os << o.getToString();
         return os;
-    };
-    friend std::istream& operator>>(std::istream &input, TIMU_Gyroscope &o)
-    {
+    }
+    friend std::istream &operator >> ( std::istream &input, TIMU_Gyroscope &o ) {
         std::string str;
         getline (input, str);
 	o.setFromString(str);
@@ -537,16 +525,15 @@ struct TIMU_Gyroscope {
 };
 
 struct TIMU_Magnetometer {
-    TIMU_Magnetometer() : state () {};
-    TIMU_Magnetometer ( const TVector3 &state ) : state ( state ) {};
+    TIMU_Magnetometer() : state () {}
+    TIMU_Magnetometer ( const TVector3 &state ) : state ( state ) {}
     TVector3 state;
 #ifndef USB_PRODUCT
     friend std::ostream &operator << ( std::ostream &os, const TIMU_Magnetometer &o ) {
         os << o.getToString();
         return os;
-    };
-    friend std::istream& operator>>(std::istream &input, TIMU_Magnetometer &o)
-    {
+    }
+    friend std::istream &operator >> ( std::istream &input, TIMU_Magnetometer &o ) {
         std::string str;
         getline (input, str);
 	o.setFromString(str);
@@ -569,16 +556,15 @@ struct TIMU_Magnetometer {
 };
 
 struct TIMU_Environment {
-    TIMU_Environment() : state () {};
-    TIMU_Environment ( const TVector3 &state ) : state ( state ) {};
+    TIMU_Environment() : state () {}
+    TIMU_Environment ( const TVector3 &state ) : state ( state ) {}
     TVector3 state;
 #ifndef USB_PRODUCT
     friend std::ostream &operator << ( std::ostream &os, const TIMU_Environment &o ) {
         os << o.getToString();
         return os;
-    };
-    friend std::istream& operator>>(std::istream &input, TIMU_Environment &o)
-    {
+    }
+    friend std::istream &operator >> ( std::istream &input, TIMU_Environment &o ) {
         std::string str;
         getline (input, str);
 	o.setFromString(str);
@@ -600,8 +586,7 @@ struct TIMU_Environment {
 #endif
 };
 
-};
-};
+}
+}
 
 #endif // TUW_ARDUINO_STRUCTS_H
-

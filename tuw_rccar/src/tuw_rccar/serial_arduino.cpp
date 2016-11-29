@@ -8,9 +8,10 @@ using namespace tuw::serial;
 
 SerialArduino::SerialArduino()
     : serial_timeout_ ( NULL ) {
-};
+}
+
 SerialArduino::~SerialArduino() {
-};
+}
 
 void SerialArduino::close() {
     loop = false;
@@ -21,7 +22,6 @@ void SerialArduino::close() {
         }
     }
     serial_monitor_thread_.join();
-
 }
 
 void SerialArduino::serial_monitor ( const std::string& devname, unsigned int baud_rate ) {
@@ -102,7 +102,6 @@ void SerialArduino::serial_monitor ( const std::string& devname, unsigned int ba
 }
 
 void SerialArduino::addObject ( const Object &object ) {
-
     std::lock_guard<std::mutex> lock ( mutex_obj_tx_ );
     obj_tx_[object.type] = object;
 }

@@ -13,7 +13,7 @@
 class TimeoutSerial;
 
 namespace tuw {
-  namespace serial {
+namespace serial {
 
 class SerialArduino {
     Message msg_tx_;

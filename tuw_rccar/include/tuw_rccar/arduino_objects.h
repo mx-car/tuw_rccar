@@ -6,58 +6,60 @@
 namespace tuw {
 namespace arduino {
 
-
 class  Text : public TText {
 public:
-    Text(): TText() {};
+    Text(): TText() {}
     Text ( const char *text ): TText() {
       this->write(text);
-    };
+    }
 };
+
 class  Pose : public TPose {
 public:
-    Pose() {};
+    Pose() {}
     Pose ( float x, float y , float theta ) {
         this->x=x, this->y = y, this->theta = theta;
-    };
+    }
 };
+
 class  Mat3x3 : public TMat3x3 {
 public:
-    Mat3x3() {};
+    Mat3x3() {}
 };
+
 class  Actuators : public TActuators {
 public:
-    Actuators() {};
+    Actuators() {}
     Actuators ( float rps, float rad ) {
         this->rps=rps, this->rad = rad;
-    };
-    void zero(){
+    }
+    void zero() {
       this->rps = 0, this->rad = 0;
     }
 };
 
 class  Point : public TPoint {
 public:
-    Point() {};
+    Point() {}
     Point ( float x, float y ) {
         this->x=x, this->y = y;
-    };
+    }
 };
 
 class  Vector2 : public TVector2 {
 public:
-    Vector2() {};
+    Vector2() {}
     Vector2 ( float x, float y ) {
         this->x=x, this->y = y;
-    };
+    }
 };
 
 class  Vector3 : public TVector3 {
 public:
-    Vector3() {};
+    Vector3() {}
     Vector3 ( float x, float y, float z ) {
         this->x=x, this->y = y, this->z = z;
-    };
+    }
 };
 
 class  AckermannConfig : public TAckermannConfig {
@@ -102,6 +104,6 @@ public:
 };
 
 }
-};
+}
 
 #endif // __ARDUINO_OBJECTS_H
