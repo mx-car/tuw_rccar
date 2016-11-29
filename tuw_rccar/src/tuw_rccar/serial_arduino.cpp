@@ -77,9 +77,13 @@ void SerialArduino::serial_monitor ( const std::string& devname, unsigned int ba
             }
         } catch ( boost::system::system_error& e ) {
             std::cout << "Error on reading serial link: " << e.what() << std::endl;
+            std::cout << "Restart in 1 sec..." << std::endl;
+            sleep(1);
         } catch (std::exception& e) {
             // This catches the timeout
             std::cout << "Error on reading serial link: " << e.what() << std::endl;
+            std::cout << "Restart in 1 sec..." << std::endl;
+            sleep(1);
         }
         if ( serial_timeout_ ) {
             try {
