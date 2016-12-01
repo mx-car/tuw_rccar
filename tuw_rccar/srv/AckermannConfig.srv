@@ -1,0 +1,6 @@
+int8 foobar
+---
+float32 axle_distance
+float32 wheelbase
+float32 weight
+float32 steering_angle

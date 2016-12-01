@@ -33,6 +33,7 @@ static const uint16_t TYPE_COMMAND_ACTUATORS = 5010;
 static const uint16_t TYPE_COMMAND_ACKERMANN = 5020;
 static const uint16_t TYPE_COMMAND_MOTOR_PID = 5030;
 static const uint16_t TYPE_COMMAND_SERVO_PID = 5040;
+static const uint16_t TYPE_COMMAND_ACKERMANN_CONFIG = 5050;
 
 typedef uint16_t ObjectType;
 

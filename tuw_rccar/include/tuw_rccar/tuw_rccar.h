@@ -5,6 +5,7 @@
 #include <string>
 #include <opencv2/opencv.hpp>
 #include <tuw_geometry/tuw_geometry.h>
+#include <sensor_msgs/Imu.h>
 #include <tuw_rccar/RCCarConfig.h>
 #include "tuw_rccar/serial_arduino.h"
 
@@ -25,9 +26,17 @@ protected:
 
     tuw_rccar::RCCarConfig config_;
 
-    double twist_velocity;
-    double twist_steering_angle;
+    tuw::arduino::Actuators actuators_;
+    tuw::arduino::Actuators actuators_last_;
+    ros::Time actuators_last_received;
+    ros::Time actuators_last_sent;
+    bool service_ackermann_config;
 
+    sensor_msgs::Imu imu_;
+    ros::Time imu_last_received;
+    ros::Time imu_last_sent;
+
+    tuw::arduino::AckermannConfig amcfg_;
 
 };
 
