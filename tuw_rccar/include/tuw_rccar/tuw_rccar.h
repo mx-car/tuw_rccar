@@ -16,6 +16,7 @@ namespace tuw {
 class RCCar {
 public:
     RCCar(const std::string &ns);        // Constructor
+    ~RCCar(void);
     void init();                         // initialization
 
     void callback_serial ( tuw::serial::Message &header,  tuw::serial::Objects & objects );

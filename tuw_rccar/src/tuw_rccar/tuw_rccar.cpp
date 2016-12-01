@@ -17,7 +17,13 @@ RCCar::RCCar ( const std::string &ns ) {
 
     serial_arduino.init(params, callback_fnc);
 
+    service_ackermann_config = true; // get config on startup
+
     imu_.orientation_covariance[0] = -1; // IMU has no orientation -> set covariance[0] to -1 according to sensor_msgs/Imu doc
+}
+
+RCCar::~RCCar (void) {
+    serial_arduino.close();
 }
 
 void RCCar::init() {
