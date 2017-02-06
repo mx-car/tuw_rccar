@@ -39,6 +39,7 @@ RCCarNode::RCCarNode ( ros::NodeHandle & n )
     publisher_imu_ = n.advertise<sensor_msgs::Imu> ( "rccar_imu", 1 );
 
     servprov_ = n.advertiseService("config_read", &RCCarNode::callbackServiceConfig, this);
+    servprov_pid_ = n.advertiseService("pid_controller", &RCCarNode::callbackServicePIDController, this);
 
     reconfigureFnc_ = boost::bind ( &RCCarNode::callbackConfigRCCar, this,  _1, _2 );
     reconfigureServer_.setCallback ( reconfigureFnc_ );
@@ -60,6 +61,25 @@ bool RCCarNode::callbackServiceConfig ( tuw_rccar::AckermannConfig::Request& req
     response.weight = amcfg_.weight;
     response.steering_angle = amcfg_.max_steer_angle;
 
+    return true;
+}
+
+bool RCCarNode::callbackServicePIDController ( tuw_rccar::PIDController::Request& request, tuw_rccar::PIDController::Response& response ) {
+    ROS_INFO("callbackServicePIDController called");
+    service_pid_controller = true;
+
+    while (service_pid_controller) {
+        // Busy Wait for response
+        printf("waiting for response...\n");
+        usleep(10000);
+    }
+
+    printf("finished waiting\n");
+/*    response.axle_distance = amcfg_.d;
+    response.wheelbase = amcfg_.l;
+    response.weight = amcfg_.weight;
+    response.steering_angle = amcfg_.max_steer_angle;
+*/
     return true;
 }
 

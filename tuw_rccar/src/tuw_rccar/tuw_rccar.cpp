@@ -18,6 +18,7 @@ RCCar::RCCar ( const std::string &ns ) {
     serial_arduino.init(params, callback_fnc);
 
     service_ackermann_config = true; // get config on startup
+    service_pid_controller = true; // get PID-config on startup
 
     imu_.orientation_covariance[0] = -1; // IMU has no orientation -> set covariance[0] to -1 according to sensor_msgs/Imu doc
 }
@@ -50,6 +51,14 @@ void RCCar::callback_serial ( tuw::serial::Message &header, tuw::serial::Objects
         case tuw::serial::TYPE_MOTOR_STATE:
             break;
         case tuw::serial::TYPE_MOTOR_PID:
+            {
+//            object.get(amcfg_);
+            printf("TYPE_MOTOR_PID received:\n");
+//            printf("\tAxle Distance: %3.2f m\n", amcfg_.d);
+//            printf("\tWheelbase: %3.2f m\n", amcfg_.l);
+//            printf("\tWeight: %3.2f kg\n", amcfg_.weight);
+//            printf("\tSteering Angle: %4.3f rad\n", amcfg_.max_steer_angle);
+            }
             break;
         case tuw::serial::TYPE_SERVO_STATE:
             break;
@@ -113,6 +122,11 @@ void RCCar::callback_serial ( tuw::serial::Message &header, tuw::serial::Objects
     if (service_ackermann_config) {
         service_ackermann_config = false;
         serial_arduino.addObject(tuw::serial::Object(NULL, tuw::serial::TYPE_COMMAND_ACKERMANN_CONFIG) );
+    }
+
+    if (service_pid_controller) {
+        service_pid_controller = false;
+        serial_arduino.addObject(tuw::serial::Object(NULL, tuw::serial::TYPE_COMMAND_MOTOR_PID) );
     }
 
 /*    if(shm_->command_ackermann.hasChanged()){

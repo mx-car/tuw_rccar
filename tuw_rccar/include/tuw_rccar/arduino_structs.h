@@ -200,14 +200,15 @@ struct TAckermann {
 };
 
 struct TAckermannConfig {
-    TAckermannConfig() : d ( 0 ), l ( 0 ), gear_ratio ( 0 ), wheel_radius ( 0 ), max_steer_angle ( 0 ), weight ( 0 ) {}
-    TAckermannConfig ( float d, float l, float gear_ratio, float wheel_radius, float max_steer_angle, float weight ) : d ( d ), l ( l ), gear_ratio ( gear_ratio ), wheel_radius ( wheel_radius ), max_steer_angle ( max_steer_angle ), weight ( weight ) {}
+    TAckermannConfig() : d ( 0 ), l ( 0 ), gear_ratio ( 0 ), wheel_radius ( 0 ), max_steer_angle ( 0 ), weight ( 0 ), write ( 0 ) {}
+    TAckermannConfig ( float d, float l, float gear_ratio, float wheel_radius, float max_steer_angle, float weight ) : d ( d ), l ( l ), gear_ratio ( gear_ratio ), wheel_radius ( wheel_radius ), max_steer_angle ( max_steer_angle ), weight ( weight ), write ( 0 ) {}
     float d; /// distance front <-> back wheels [m]
     float l; /// distance between wheels [m]
     float gear_ratio; /// rps [Motor] -> rps [wheels]
     float wheel_radius; /// wheel radius [m]
     float max_steer_angle; /// max steering angle [rad]
     float weight; /// total weight of car [kg]
+    bool write;
 #ifndef USB_PRODUCT
     friend std::ostream &operator << ( std::ostream &os, const TAckermannConfig &o ) {
         os << o.getToString();
@@ -365,11 +366,12 @@ struct TActualTarget {
 };
 
 struct TPID {
-    TPID() : kp ( 0 ), ki ( 0 ), kd ( 0 ) {}
-    TPID ( float kp, float ki, float kd ) : kp ( kp ), ki ( ki ), kd ( kd ) {}
+    TPID() : kp ( 0 ), ki ( 0 ), kd ( 0 ), write ( 0 ) {}
+    TPID ( float kp, float ki, float kd ) : kp ( kp ), ki ( ki ), kd ( kd ), write ( 0 ) {}
     float kp;
     float ki;
     float kd;
+    bool write;
 #ifndef USB_PRODUCT
     friend std::ostream &operator << ( std::ostream &os, const TPID &o ) {
         os << o.getToString();

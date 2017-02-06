@@ -10,6 +10,7 @@
 #include <tuw_rccar/tuw_rccar.h>
 #include <tuw_rccar/RCCarConfig.h>
 #include <tuw_rccar/AckermannConfig.h>
+#include <tuw_rccar/PIDController.h>
 
 /**
  * class to cover the ros communication
@@ -26,10 +27,13 @@ private:
     ros::Publisher publisher_twist_;         // Publisher for ...
     ros::Publisher publisher_imu_;         // Publisher for ...
     ros::ServiceServer servprov_;      // Service Provider for ...
+    ros::ServiceServer servprov_pid_;      // Service Provider for PID Controller
     void callbackWrite ( const tuw_nav_msgs::JointsIWS &_inp );                            // callback function to execute on incoming sensor data
     void callbackConfigRCCar ( tuw_rccar::RCCarConfig &config, uint32_t level );        // callback function on incoming parameter changes
 //    bool callbackServiceConfig ( std_srvs::Empty::Request& request, std_srvs::Empty::Response& response );
     bool callbackServiceConfig ( tuw_rccar::AckermannConfig::Request& request, tuw_rccar::AckermannConfig::Response& response );
+    bool callbackServicePIDController ( tuw_rccar::PIDController::Request& request, tuw_rccar::PIDController::Response& response );
+
     dynamic_reconfigure::Server<tuw_rccar::RCCarConfig> reconfigureServer_;             // parameter server stuff
     dynamic_reconfigure::Server<tuw_rccar::RCCarConfig>::CallbackType reconfigureFnc_;  // parameter server stuff
 

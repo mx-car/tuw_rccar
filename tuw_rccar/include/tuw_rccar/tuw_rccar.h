@@ -32,6 +32,7 @@ protected:
     ros::Time actuators_last_received;
     ros::Time actuators_last_sent;
     bool service_ackermann_config;
+    bool service_pid_controller;
 
     sensor_msgs::Imu imu_;
     ros::Time imu_last_received;

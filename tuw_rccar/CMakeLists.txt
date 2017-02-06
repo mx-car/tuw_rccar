@@ -61,6 +61,7 @@ find_package(catkin REQUIRED COMPONENTS
    DIRECTORY srv
    FILES
    AckermannConfig.srv
+   PIDController.srv
  )
 
 ## Generate actions in the 'action' folder
