@@ -1,0 +1,2 @@
+add_library(shm_arduino_objects shm_arduino_objects.cpp shm_arduino_object_handler.cpp)
+target_link_libraries(shm_arduino_objects)
