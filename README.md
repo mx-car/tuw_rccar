@@ -28,18 +28,18 @@ sudo apt-get install ros-kinetic-joy
         - tuw_arduino_bridge
   
 ```
-mkdir -p $RCCAR_DIR\ws01\src
-cd $RCCAR_DIR\ws01\src
+mkdir -p $RCCAR_DIR/ws01/src
+cd $RCCAR_DIR/ws01/src
 git clone https://github.com/tuw-robotics/tuw_geometry.git
 git clone https://github.com/tuw-robotics/tuw_teleop.git
 git clone https://github.com/tuw-robotics/tuw_msgs.git
-cd $RCCAR_DIR\ws01
+cd $RCCAR_DIR/ws01
 catkin_make
-source $RCCAR_DIR\ws01\devel\setup.bash
-mkdir -p $RCCAR_DIR\ws02\src
-cd $RCCAR_DIR\ws02\src
+source $RCCAR_DIR/ws01/devel/setup.bash
+mkdir -p $RCCAR_DIR/ws02/src
+cd $RCCAR_DIR/ws02/src
 git clone https://github.com/tuw-robotics/tuw_arduino_ros.git
-cd $RCCAR_DIR\ws02
+cd $RCCAR_DIR/ws02
 catkin_make
 ```
   
