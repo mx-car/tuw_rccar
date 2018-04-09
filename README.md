@@ -1,7 +1,7 @@
 ## RaceCar Tutorial
-###Setup the RaceCar:
+### Setup the RaceCar:
 This tutorial is designed for xubuntu (16.04) in usage with ROS Kinetic.
-####.bashrc:
+#### .bashrc:
 
 ```
   export ARDUINO_ROOT=$HOME/opt/arduino     # to arduino 1.7.8
@@ -9,10 +9,10 @@ This tutorial is designed for xubuntu (16.04) in usage with ROS Kinetic.
   export RCCAR_DIR=$HOME/projects/rccar     # your project root with ros workspaces
   source $RCCAR_DIR/ws01/devel/setup.bash   # to source your workspace
 ```
-####ROS Installation: 
+#### ROS Installation: 
   A full manual on how to install ROS Kinetic on the device can be found at the [ROS Tutorial](http://wiki.ros.org/kinetic/Installation/Ubuntu) (last accessed: 08.05.2017)
   Make sure u set up your Workspace properly.
-####ROS Setup:
+#### ROS Setup:
 - Install the ROS Realsense-Package and the ROS Joy-Package:
 ```
     sudo apt-get install ros-kinetic-realsense-camera
@@ -44,7 +44,7 @@ catkin_make
 ```
   
     
-####Arduino Setup: 
+#### Arduino Setup: 
   Set root rights to the USB:
   Edit or make the file: `/etc/udev/rules.d/98-openocd.rules`
     Add the following lines:
@@ -79,14 +79,14 @@ catkin_make
       The tuw_arduino_bridge package holds deprecated ROS nodes which were used a while ago with shmFw. These nodes are no longer required.
       The important part of the tuw_arduino_bridge package is the firmware folder.
 
-###Set the RaceCar into operation:
+### Set the RaceCar into operation:
 **Note:** this guide refers to the RaceCars deployed at TU-rWien Treidlstraße 3, 4th Floor.
-####Connect:
+#### Connect:
   Connect your Computer to the "humans" wifi, you can Login with your TU e-mail address and your TU password (like the "tuwel" wifi).
     Troubleshooting:
       The "humans" network does not work very reliable.
       If you can not connect to "humans" you can try to connect to the "robots" wifi, ask for the Password.
-####Setup the RaceCar: 
+#### Setup the RaceCar: 
   Connect the IntelUp with the Arduino Board (USB 2.0 to Micro USB "programming").
     Troubleshooting:
       Check the connection wire, it needs to be a data (not a power only) wire.
@@ -100,7 +100,7 @@ catkin_make
     Optional:
       Connect the IntelUp with the RealSense R200 camera. Use the USB 3.0 Micro-B to USB 3.0 Micro-B cable only! Other cables like combinations of adapters from USB 3.0 Micro-B to USB 3.0 A with an other USB 3.0 A to USB 3.0 Micro-B are very likely to fail.
       Connect the IMU with the motor controller board (ground is not connected).
-####Run the RaceCar:
+#### Run the RaceCar:
   SSH connect to "robot" at the RaceCar (IP-address: 192.168.10.53), ask for the password of the IntelUp.
     Troubleshooting:
       Check if your computer is connected to "humans" wifi or "robots" wifi.
@@ -112,13 +112,13 @@ catkin_make
     roslaunch tuw_rccar arduino_ros_demo.launch
     ```
     
-####Setup IntelUp:
+#### Setup IntelUp:
   Install xubuntu (16.04) or any other related distribution (also 16.04).
   Optional:
     This step is not necessary for the Realsense R200 to work but might help in Troubleshooting.
     Follow the steps 5 and 6 (replace step to with the OS of your choice): [IntelUp Tutorial](https://01.org/developerjourney/recipe/intel-realsense-robotic-development-kit) (last accessed: 08.05.2017)
     
-####Run the Realsense:
+#### Run the Realsense:
   ```
   roslaunch realsense_camera r200_nodelet_default.launch
   ```
