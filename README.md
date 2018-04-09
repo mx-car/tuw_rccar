@@ -7,26 +7,16 @@ This tutorial is designed for xubuntu (16.04) in usage with ROS Kinetic.
 export ARDUINO_ROOT=$HOME/opt/arduino     # to arduino 1.7.8
 export VEHICLE_TYPE=1                     # 1 for race car 2 for crawler
 export RCCAR_DIR=$HOME/projects/rccar     # your project root with ros workspaces
-source $RCCAR_DIR/ws01/devel/setup.bash   # to source your workspace
+source $RCCAR_DIR/ws02/devel/setup.bash   # to source your workspace
 ```
-#### ROS Installation: 
-  A full manual on how to install ROS Kinetic on the device can be found at the [ROS Tutorial](http://wiki.ros.org/kinetic/Installation/Ubuntu) (last accessed: 08.05.2017)
-  Make sure u set up your Workspace properly.
-#### ROS Setup:
-- Install the ROS Realsense-Package and the ROS Joy-Package:
+#### ROS Installation:
+A full manual on how to install ROS Kinetic on the device can be found at the [ROS Tutorial](http://wiki.ros.org/kinetic/Installation/Ubuntu).
+#### ROS Nodes:
+- Addidinal pkgs needed
 ```
-sudo apt-get install ros-kinetic-realsense-camera
 sudo apt-get install ros-kinetic-joy
 ```
-- Additionally you need to install the following Packages from the TUW_Robotics GitHub page (in this package):
-    - tuw_geometry 
-    - tuw_teleop 
-    - tuw_msgs 
-    - tuw_arduino_ros 
-        - tuw_rccar, 
-        - tuw_arduino_ros, 
-        - tuw_arduino_bridge
-  
+- Additionally you need to install the following Packages from the tuw-robotics GitHub page:
 ```
 mkdir -p $RCCAR_DIR/ws01/src
 cd $RCCAR_DIR/ws01/src
@@ -45,8 +35,8 @@ catkin_make
   
     
 #### Arduino Setup: 
-Set root rights to the USB by preparing or creating the file: `/etc/udev/rules.d/98-openocd.rules` with the following content.
-    
+- Set root rights to the USB by preparing or creating the file: `/etc/udev/rules.d/98-openocd.rules` with the following content:
+
 ```
 ACTION!="add|change", GOTO="openocd_rules_end"
 SUBSYSTEM!="usb|tty|hidraw", GOTO="openocd_rules_end"
@@ -59,26 +49,26 @@ ATTRS{product}=="*CMSIS-DAP*", MODE="664", GROUP="plugdev"
 LABEL="openocd_rules_end"
 ```
     
-Get the Arduino IDE Version 1.7.8 (newer ones are actuelly not supported).
-In the directory `/some/directory/tuw_arduino_bridge/arduino/build` and run the following commands:
-  
+- Get the Arduino IDE Version 1.7.8 (newer ones are actuelly not supported).
+untar the IDE to `$HOME/opt/` and make a soft link `$HOME/opt/arduino` 
 ```
-export ARDUINO_ROOT=/some/where/
+mkdir -p $HOME/opt/
+tar -xzvf arduino-1.7.8-linux64.tar.xz.part $HOME/opt/
+cd $HOME/opt/
+ln -s arduino-1.7.8-linux64 $ARDUINO_ROOT  # ARDUINO_ROOT must be exported in .bashrc
 ```
-    
-    Depending on the directory where your Andriuno IDE is saved.
-    The vehicle type has to be set (TYPE=1: RaceCar;TYPE=2: RocketCrawler).
+- check your vehicle type using `echo $VEHICLE_TYPE` 1 = RaceCar and 2 RocketCrawler.
 ```
-export VEHICLE_TYPE=1
+mkdir -p $RCCAR_DIR/ws02/src/tuw_arduino_ros/tuw_arduino_bridge/arduino/build
+cd $RCCAR_DIR/ws02/src/tuw_arduino_ros/tuw_arduino_bridge/arduino/build
 cmake ..
 make firmware_motion_demo.upload
 ```
-    Note:
-      The tuw_arduino_bridge package holds deprecated ROS nodes which were used a while ago with shmFw. These nodes are no longer required.
-      The important part of the tuw_arduino_bridge package is the firmware folder.
+ - Note:
+      The tuw_arduino_bridge package holds deprecated ROS nodes which were used a while ago with shmFw. These nodes are no longer required. The important part of the tuw_arduino_bridge package is the firmware folder.
 
 ### Set the RaceCar into operation:
-**Note:** this guide refers to the RaceCars deployed at TU-rWien Treidlstraße 3, 4th Floor.
+**Note:** this guide refers to the RaceCars deployed at TU-Wien Treidlstrasse 3, 4th Floor.
 #### Connect:
   Connect your Computer to the "humans" wifi, you can Login with your TU e-mail address and your TU password (like the "tuwel" wifi).
     Troubleshooting:
@@ -117,9 +107,15 @@ make firmware_motion_demo.upload
     Follow the steps 5 and 6 (replace step to with the OS of your choice): [IntelUp Tutorial](https://01.org/developerjourney/recipe/intel-realsense-robotic-development-kit) (last accessed: 08.05.2017)
     
 #### Run the Realsense:
-  ```
-  roslaunch realsense_camera r200_nodelet_default.launch
-  ```
+
+```
+sudo apt-get install ros-kinetic-realsense-camera
+sudo apt-get install ros-kinetic-joy
+```
+
+```
+roslaunch realsense_camera r200_nodelet_default.launch
+```
 
   Now you should be able to control the RaceCar with the gamepad, usually one of the buttons RB, LB, RT, LT is a deadman's button.
   Running the following command on your device allows you to access the ROS core of the IntelUp (change IP-adress to the IP-adress (in the "robots" wifi) of the IntelUp):
