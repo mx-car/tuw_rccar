@@ -4,10 +4,10 @@ This tutorial is designed for xubuntu (16.04) in usage with ROS Kinetic.
 #### .bashrc:
 
 ```
-  export ARDUINO_ROOT=$HOME/opt/arduino     # to arduino 1.7.8
-  export VEHICLE_TYPE=1                     # 1 for race car 2 for crawler
-  export RCCAR_DIR=$HOME/projects/rccar     # your project root with ros workspaces
-  source $RCCAR_DIR/ws01/devel/setup.bash   # to source your workspace
+export ARDUINO_ROOT=$HOME/opt/arduino     # to arduino 1.7.8
+export VEHICLE_TYPE=1                     # 1 for race car 2 for crawler
+export RCCAR_DIR=$HOME/projects/rccar     # your project root with ros workspaces
+source $RCCAR_DIR/ws01/devel/setup.bash   # to source your workspace
 ```
 #### ROS Installation: 
   A full manual on how to install ROS Kinetic on the device can be found at the [ROS Tutorial](http://wiki.ros.org/kinetic/Installation/Ubuntu) (last accessed: 08.05.2017)
@@ -15,8 +15,8 @@ This tutorial is designed for xubuntu (16.04) in usage with ROS Kinetic.
 #### ROS Setup:
 - Install the ROS Realsense-Package and the ROS Joy-Package:
 ```
-    sudo apt-get install ros-kinetic-realsense-camera
-    sudo apt-get install ros-kinetic-joy
+sudo apt-get install ros-kinetic-realsense-camera
+sudo apt-get install ros-kinetic-joy
 ```
 - Additionally you need to install the following Packages from the TUW_Robotics GitHub page (in this package):
     - tuw_geometry 
@@ -26,7 +26,7 @@ This tutorial is designed for xubuntu (16.04) in usage with ROS Kinetic.
         - tuw_rccar, 
         - tuw_arduino_ros, 
         - tuw_arduino_bridge
-    
+  
 ```
 mkdir -p $RCCAR_DIR\ws01\src
 cd $RCCAR_DIR\ws01\src
@@ -45,36 +45,34 @@ catkin_make
   
     
 #### Arduino Setup: 
-  Set root rights to the USB:
-  Edit or make the file: `/etc/udev/rules.d/98-openocd.rules`
-    Add the following lines:
+Set root rights to the USB by preparing or creating the file: `/etc/udev/rules.d/98-openocd.rules` with the following content.
     
-    ```
-    ACTION!="add|change", GOTO="openocd_rules_end"
-    SUBSYSTEM!="usb|tty|hidraw", GOTO="openocd_rules_end"
+```
+ACTION!="add|change", GOTO="openocd_rules_end"
+SUBSYSTEM!="usb|tty|hidraw", GOTO="openocd_rules_end"
 
-    #Please keep this list sorted by VID:PID
+#Please keep this list sorted by VID:PID
 
-    #CMSIS-DAP compatible adapters
-    ATTRS{product}=="*CMSIS-DAP*", MODE="664", GROUP="plugdev"
+#CMSIS-DAP compatible adapters
+ATTRS{product}=="*CMSIS-DAP*", MODE="664", GROUP="plugdev"
 
-    LABEL="openocd_rules_end"
-    ```
+LABEL="openocd_rules_end"
+```
     
-  Get the Arduino IDE Version 1.7.8 (newer ones are actuelly not supported).
-  In the directory `/some/directory/tuw_arduino_bridge/arduino/build` and run the following commands:
+Get the Arduino IDE Version 1.7.8 (newer ones are actuelly not supported).
+In the directory `/some/directory/tuw_arduino_bridge/arduino/build` and run the following commands:
   
-    ```
-    export ARDUINO_ROOT=/some/where/
-    ```
+```
+export ARDUINO_ROOT=/some/where/
+```
     
     Depending on the directory where your Andriuno IDE is saved.
     The vehicle type has to be set (TYPE=1: RaceCar;TYPE=2: RocketCrawler).
-    ```
-    export VEHICLE_TYPE=1
-    cmake ..
-    make firmware_motion_demo.upload
-    ```
+```
+export VEHICLE_TYPE=1
+cmake ..
+make firmware_motion_demo.upload
+```
     Note:
       The tuw_arduino_bridge package holds deprecated ROS nodes which were used a while ago with shmFw. These nodes are no longer required.
       The important part of the tuw_arduino_bridge package is the firmware folder.
