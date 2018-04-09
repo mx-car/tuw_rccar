@@ -1,0 +1,118 @@
+#ifndef _IMU_H__
+#define _IMU_H_
+
+#include <Arduino.h>
+
+#define AXIS_X	0
+#define AXIS_Y	1
+#define AXIS_Z	2
+
+// IMU: https://www.pololu.com/product/2470/resources
+// Gyro: ST L3GD20H
+// Pressure: ST LPS25H
+// Accelerometer & Magnetometer: ST LSM303D
+
+#define PRESSURE_I2C_ADDRESS		0xBA
+#define GYROSCOPE_I2C_ADDRESS		0xD6
+#define ACCELEROMETER_I2C_ADDRESS	0x3A
+#define MAGNETOMETER_I2C_ADDRESS	ACCELEROMETER_I2C_ADDRESS
+
+#define REG_AUTO_INCREMENT		0x80
+
+#define GYROSCOPE_REG_CTRL1		0x20
+#define GYROSCOPE_REG_STATUS		0x27
+
+#define GYROSCOPE_CTRL1_EN_X_AXIS	0x01
+#define GYROSCOPE_CTRL1_EN_Y_AXIS	0x02
+#define GYROSCOPE_CTRL1_EN_Z_AXIS	0x04
+#define GYROSCOPE_CTRL1_NORMAL_MODE	0x08
+#define GYROSCOPE_CTRL1_ODR_100HZ	0x00	// assert(Low_ODR = 0) (default)
+#define GYROSCOPE_CTRL1_ODR_200HZ	0x40	// assert(Low_ODR = 0) (default)
+#define GYROSCOPE_CTRL1_ODR_400HZ	0x80	// assert(Low_ODR = 0) (default)
+#define GYROSCOPE_CTRL1_ODR_800HZ	0xC0	// assert(Low_ODR = 0) (default)
+#define GYROSCOPE_CTRL4_RANGE_245DPS	0x00
+#define GYROSCOPE_CTRL4_RANGE_500DPS	0x10
+#define GYROSCOPE_CTRL4_RANGE_2000DPS	0x20
+#define GYROSCOPE_CTRL5_OUTPUT_LPF2	0x03
+
+
+#define PRESSURE_REG_CTRL1		0x20
+#define PRESSURE_REG_STATUS		0x27
+
+#define PRESSURE_CTRL1_NORMAL_MODE	0x80
+#define PRESSURE_CTRL1_ODR_NONE		0x00
+#define PRESSURE_CTRL1_ODR_1HZ		0x10
+#define PRESSURE_CTRL1_ODR_7HZ		0x20
+#define PRESSURE_CTRL1_ODR_12HZ		0x30
+#define PRESSURE_CTRL1_ODR_25HZ		0x40
+
+
+#define ACCELEROMETER_REG_CTRL1		0x20
+#define ACCELEROMETER_REG_STATUS	0x27
+#define MAGNETOMETER_REG_STATUS		0x07
+
+#define ACCELEROMETER_CTRL1_EN_X_AXIS	0x01
+#define ACCELEROMETER_CTRL1_EN_Y_AXIS	0x02
+#define ACCELEROMETER_CTRL1_EN_Z_AXIS	0x04
+#define ACCELEROMETER_CTRL1_ODR_NONE	0x00
+#define ACCELEROMETER_CTRL1_ODR_3HZ	0x10
+#define ACCELEROMETER_CTRL1_ODR_6HZ	0x20
+#define ACCELEROMETER_CTRL1_ODR_12HZ	0x30
+#define ACCELEROMETER_CTRL1_ODR_25HZ	0x40
+#define ACCELEROMETER_CTRL1_ODR_50HZ	0x50
+#define ACCELEROMETER_CTRL1_ODR_100HZ	0x60
+#define ACCELEROMETER_CTRL1_ODR_200HZ	0x70
+#define ACCELEROMETER_CTRL1_ODR_400HZ	0x80
+#define ACCELEROMETER_CTRL1_ODR_800HZ	0x90
+#define ACCELEROMETER_CTRL1_ODR_1600HZ	0xA0
+#define ACCELEROMETER_CTRL2_RANGE_2G	0x00
+#define ACCELEROMETER_CTRL2_RANGE_4G	0x08
+#define ACCELEROMETER_CTRL2_RANGE_6G	0x10
+#define ACCELEROMETER_CTRL2_RANGE_8G	0x18
+#define ACCELEROMETER_CTRL2_RANGE_16G	0x20
+#define MAGNETOMETER_CTRL5_RES_LOW	0x00
+#define MAGNETOMETER_CTRL5_RES_HIGH	0x60
+#define MAGNETOMETER_CTRL5_ODR_3HZ	0x00
+#define MAGNETOMETER_CTRL5_ODR_6HZ	0x04
+#define MAGNETOMETER_CTRL5_ODR_12HZ	0x08
+#define MAGNETOMETER_CTRL5_ODR_25HZ	0x0C
+#define MAGNETOMETER_CTRL5_ODR_50HZ	0x10
+#define MAGNETOMETER_CTRL5_ODR_100HZ	0x14
+#define ACCELEROMETER_CTRL7_EN_LPF	0x20
+
+
+
+namespace tuw{
+
+class IMU {
+	uint8_t i2c_buf[16];
+
+	int16_t gyro[3];
+	int16_t temperature;
+	uint32_t pressure;
+	int16_t accel[3];
+	int16_t magnet[3];
+	int16_t compass;
+
+public:
+	IMU();
+
+	static IMU &getInstance( ){
+		static IMU instance;
+		return instance;
+	}
+
+	void init ( void );
+
+	void update ( void );
+
+	uint32_t get_pressure(void);
+	int16_t get_temperature(void);
+	int16_t get_accel(uint8_t axis);
+	int16_t get_gyro(uint8_t axis);
+	int16_t get_magnet(uint8_t axis);
+	int16_t get_compass(void);
+};
+
+}
+#endif

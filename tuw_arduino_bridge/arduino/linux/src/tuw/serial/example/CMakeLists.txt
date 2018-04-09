@@ -1,0 +1,4 @@
+
+
+add_executable(serial_arduino_demo main_serial_arduino_demo.cpp)
+target_link_libraries(serial_arduino_demo tuw_serial_arduino ${Boost_LIBRARIES})
