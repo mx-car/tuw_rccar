@@ -34,7 +34,7 @@ RCCarNode::RCCarNode ( ros::NodeHandle & n )
     n_ ( n ),
     n_param_ ( "~" ){
 
-    subscriber_ = n.subscribe("rccar_write", 2, &RCCarNode::callbackWrite, this);
+    subscriber_ = n.subscribe("joint_cmds", 2, &RCCarNode::callbackWrite, this);
     publisher_twist_ = n.advertise<geometry_msgs::Twist> ( "rccar_read", 1 );
     publisher_imu_ = n.advertise<sensor_msgs::Imu> ( "rccar_imu", 1 );
 
@@ -88,9 +88,29 @@ void RCCarNode::callbackConfigRCCar ( tuw_rccar::RCCarConfig &config, uint32_t l
     init();
 }
 
-void RCCarNode::callbackWrite ( const tuw_nav_msgs::JointsIWS &_inp ) {
-    actuators_.rps = _inp.revolute[0] * -50; // Ackermann commands
-    actuators_.rad = _inp.steering[0] * 0.26f;
+void RCCarNode::callbackWrite ( const tuw_nav_msgs::JointsIWS &msg ) {
+    if( msg.type_steering.compare("cmd_position") != 0 ) { 
+      ROS_ERROR("Joint cmd type_steering: \"%s\" is not supported", msg.type_steering.c_str() );
+    }
+    if( msg.type_revolute.compare("cmd_velocity") != 0  ) { 
+      ROS_ERROR("Joint cmd type_steering: \"%s\" is not supported", msg.type_revolute.c_str() );
+    }
+    if(msg.revolute.size() != 2){
+      ROS_ERROR("Joint cmd incorrect number of joints: %zu is not supported expected are two!", msg.revolute.size());
+    }
+    if(msg.steering.size() != 2){
+      ROS_ERROR("Joint cmd incorrect number of joints: %zu is not supported expected are two!", msg.steering.size());
+    }
+    if((msg.revolute[0] == 0.0) || std::isnan(msg.revolute[0]) ){
+      actuators_.rad = msg.steering[0] * 0.26f;
+    } else {
+      ROS_ERROR("Joint cmd revolute[0] must be zero or NAN");
+    }
+    if((msg.steering[1] == 0.0) || std::isnan(msg.steering[1]) ){
+      actuators_.rps = msg.revolute[1] * -50; // Ackermann commands
+    } else {
+      ROS_ERROR("Joint cmd steering[1] must be zero or NAN");
+    }
     actuators_last_received = ros::Time::now();
 }
 

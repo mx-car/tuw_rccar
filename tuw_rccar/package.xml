@@ -7,13 +7,13 @@
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
   <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
-  <maintainer email="max@todo.todo">max</maintainer>
+  <maintainer email="markus.bader@tuwien.ac.at">Markus Bader</maintainer>
 
 
   <!-- One license tag required, multiple allowed, one license per tag -->
   <!-- Commonly used license strings: -->
   <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
-  <license>TODO</license>
+  <license>BSD</license>
 
 
   <!-- Url tags are optional, but mutiple are allowed, one per tag -->
@@ -49,6 +49,7 @@
   <build_depend>tuw_geometry</build_depend>  
   <build_depend>dynamic_reconfigure</build_depend>
   <build_depend>message_generation</build_depend>
+  <build_depend>tuw_nav_msgs</build_depend>  
   <run_depend>geometry_msgs</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>rospy</run_depend>
@@ -56,6 +57,7 @@
   <run_depend>std_msgs</run_depend>
   <run_depend>tf</run_depend>
   <run_depend>tuw_geometry</run_depend>  
+  <run_depend>tuw_nav_msgs</run_depend>  
   <run_depend>dynamic_reconfigure</run_depend>
   <run_depend>message_runtime</run_depend>
 

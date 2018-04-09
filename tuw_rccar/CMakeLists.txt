@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   tf
   tuw_geometry
+  tuw_nav_msgs
   dynamic_reconfigure
   message_generation
 )

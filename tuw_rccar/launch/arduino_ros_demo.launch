@@ -1,6 +1,18 @@
+<?xml version="1.0"?>
+
 <launch>
-	<remap from="rccar_write" to="cmd_vel" />
-	<node name="joy_node" pkg="joy" type="joy_node" />
-	<node name="joy2twist" pkg="joy2twist" type="joy2twist" />
-	<node name="tuw_rccar_node" pkg="tuw_rccar" type="tuw_rccar_node" />
+  <arg name="robot_name" default="r1" />
+  <arg name="use_gamepad"  default="true" />
+  <group ns="$(arg robot_name)">
+    <node name="tuw_rccar_node" pkg="tuw_rccar" type="tuw_rccar_node" >    
+      <remap from="rccar_write" to="cmd_vel" />
+    </node>    
+  </group>
+  
+  <!-- use_gamepad -->
+  <group if="$(arg use_gamepad)">
+    <include file="$(find tuw_gamepad)/launch/iws_ackerman_tt02.launch">
+      <arg name="robot_name" value="$(arg robot_name)" />
+    </include>
+  </group>
 </launch>
