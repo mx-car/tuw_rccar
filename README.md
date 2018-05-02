@@ -51,6 +51,7 @@ LABEL="openocd_rules_end"
     
 - Get the Arduino IDE Version 1.7.8 (newer ones are actuelly not supported).
 untar the IDE to `$HOME/opt/` and make a soft link `$HOME/opt/arduino` 
+Download Link: https://roblab.auto.tuwien.ac.at/owncloud/index.php/s/ZcFlfoNaCEYlrYR
 ```
 mkdir -p $HOME/opt/
 tar -xzvf arduino-1.7.8-linux64.tar.xz.part $HOME/opt/
