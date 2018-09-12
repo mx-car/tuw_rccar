@@ -35,7 +35,7 @@ RCCarNode::RCCarNode ( ros::NodeHandle & n )
     n_param_ ( "~" ){
 
     subscriber_ = n.subscribe("joint_cmds", 2, &RCCarNode::callbackWrite, this);
-    publisher_twist_ = n.advertise<geometry_msgs::Twist> ( "rccar_read", 1 );
+    publisher_twist_ = n.advertise<geometry_msgs::TwistStamped> ( "rccar_read", 1 );
     publisher_imu_ = n.advertise<sensor_msgs::Imu> ( "rccar_imu", 1 );
 
     servprov_ = n.advertiseService("config_read", &RCCarNode::callbackServiceConfig, this);
@@ -129,11 +129,12 @@ void RCCarNode::publish () {
 
     float achsabstand = 0.26;
 
-    geometry_msgs::Twist cmd;
+    geometry_msgs::TwistStamped cmd;
+    cmd.header.stamp = time_now;
     // creates motion command
-    cmd.linear.x = vel_tmp;
-    cmd.linear.y = 0.;
-    cmd.angular.z = 1/achsabstand * vel_tmp * sin(angle_tmp);
+    cmd.twist.linear.x = vel_tmp;
+    cmd.twist.linear.y = 0.;
+    cmd.twist.angular.z = 1/achsabstand * vel_tmp * sin(angle_tmp);
     // publishes motion command
     publisher_twist_.publish ( cmd );
 

@@ -2,7 +2,7 @@
 #define __TUW_RCCAR_NODE_H
 
 #include <ros/ros.h>
-#include <geometry_msgs/Twist.h>
+#include <geometry_msgs/TwistStamped.h>
 #include <geometry_msgs/Pose2D.h>
 #include <std_srvs/Empty.h>
 #include <tuw_nav_msgs/JointsIWS.h>
